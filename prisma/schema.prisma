@@ -9,6 +9,7 @@ generator client {
 
 model Product {
   id          Int      @id @default(autoincrement())
+  slug        String?  @unique   // <— läggs till nu (tillfälligt valfri)
   name        String
   price       Int
   brand       String?
