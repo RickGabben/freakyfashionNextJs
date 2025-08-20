@@ -1,6 +1,9 @@
 // src/app/(store)/page.tsx
+import AccordionMenu from "@/components/AccordionMenu";
 import { Hero } from "@/components/Hero";
 import ProductGrid from "@/components/ProductGrid";
+import Spots from "@/components/Spots";
+import StoreBenefits from "@/components/StoreBenefits";
 
 export const dynamic = "force-dynamic";
 
@@ -25,22 +28,12 @@ export default async function HomePage() {
       <Hero data={heroData} />
 
       {/* Spots */}
-      <div className="lg:grid gap-3 sm:grid-cols-2 lg:grid-cols-4 hidden">
-        {["Vinterjackor", "Puffer", "Kappor", "Trenchcoats"].map((label) => (
-          <a
-            key={label}
-            href={`/categories/${label.toLowerCase()}`}
-            className="rounded-xl border bg-white p-4 hover:shadow-sm transition"
-          >
-            <div className="h-28 rounded-lg bg-slate-100 mb-3" />
-            <div className="font-medium">{label}</div>
-            <div className="text-sm text-slate-600">Upptäck mer</div>
-          </a>
-        ))}
-      </div>
+      <Spots />
 
       {/* Product grid – hämtar själv via Prisma */}
       <ProductGrid query={{ limit: 8 }} />
+      <StoreBenefits />
+      <AccordionMenu className="mt-2" />
     </section>
   );
 }
