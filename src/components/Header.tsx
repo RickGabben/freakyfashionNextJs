@@ -59,7 +59,7 @@ export function Header() {
       <div className="sm:hidden px-4 py-3">
         {/* Logotyp (länkar hem) */}
         <Link href="/" className="block" aria-label="Gå till startsidan">
-          <div className="h-16 w-full rounded-md bg-slate-200" />
+          <img src="https://placehold.co/640x100?text=Freaky+Fashion" alt="" />
         </Link>
 
         {/* Sök + ikoner */}
@@ -106,45 +106,59 @@ export function Header() {
 
       {/* DESKTOP >=640px (valfritt: din tidigare header) */}
       <div className="hidden sm:block">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-4">
-          <Link href="/" className="text-xl font-bold tracking-tight">
-            FreakyFashion
-          </Link>
-          <nav className="ml-6 flex items-center gap-4 text-sm text-slate-600">
-            <Link href="/categories/dam" className="hover:text-slate-900">
+        <div className="max-w-6xl mx-auto px-4 py-3 space-y-3">
+          {/* Rad 1: logga, sök, ikoner */}
+          <div className="flex items-center gap-4">
+            {/* Logotyp-plats (byt gärna mot <Image> senare) */}
+            <Link href="/" aria-label="Gå till startsidan" className="block">
+              <img
+                src="https://placehold.co/200x100?text=Freaky+Fashion"
+                alt=""
+              />
+            </Link>
+
+            {/* Sökfält i mitten (pill) */}
+            <form action="/search" className="relative flex-1">
+              <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+              <input
+                name="q"
+                placeholder="Sök produkt"
+                aria-label="Sök produkt"
+                className="h-10 w-full rounded-full border bg-white pl-10 pr-4 text-sm outline-none focus:ring-2 focus:ring-slate-400"
+              />
+            </form>
+
+            {/* Ikoner till höger */}
+            <div className="ml-2 flex items-center gap-4 text-slate-700">
+              <a
+                href="#"
+                aria-label="Önskelista"
+                className="inline-flex h-9 w-9 items-center justify-center"
+              >
+                <HeartIcon className="h-5 w-5" />
+              </a>
+              <a
+                href="#"
+                aria-label="Varukorg"
+                className="inline-flex h-9 w-9 items-center justify-center"
+              >
+                <CartIcon className="h-5 w-5" />
+              </a>
+            </div>
+          </div>
+
+          {/* Rad 2: länkar under (vänsterställda) */}
+          <nav className="flex items-center gap-5 text-sm text-slate-700">
+            <Link href="/categories/dam" className="hover:underline">
               Dam
             </Link>
-            <Link href="/categories/herr" className="hover:text-slate-900">
+            <Link href="/categories/herr" className="hover:underline">
               Herr
             </Link>
-            <Link href="/categories/rea" className="hover:text-slate-900">
+            <Link href="/categories/rea" className="hover:underline">
               Rea
             </Link>
           </nav>
-          <form action="/search" className="ml-auto relative w-64">
-            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
-            <input
-              name="q"
-              placeholder="Sök produkt"
-              className="h-9 w-full rounded-md border bg-white pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-slate-400"
-            />
-          </form>
-          <div className="ml-2 flex items-center gap-2">
-            <a
-              href="#"
-              aria-label="Önskelista"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-md border"
-            >
-              <HeartIcon className="h-5 w-5" />
-            </a>
-            <a
-              href="#"
-              aria-label="Varukorg"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-md border"
-            >
-              <CartIcon className="h-5 w-5" />
-            </a>
-          </div>
         </div>
       </div>
     </header>
