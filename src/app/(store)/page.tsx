@@ -1,5 +1,6 @@
 // src/app/(store)/page.tsx
 import AccordionMenu from "@/components/AccordionMenu";
+import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/Hero";
 import ProductGrid from "@/components/ProductGrid";
 import Spots, { SpotItem } from "@/components/Spots";
@@ -53,6 +54,7 @@ export default async function HomePage() {
       <ProductGrid showHeart query={{ limit: 8 }} />
       <StoreBenefits />
       <AccordionMenu className="mt-2" />
+      <Footer />
     </section>
   );
 }
