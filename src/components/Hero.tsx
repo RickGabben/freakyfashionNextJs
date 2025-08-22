@@ -1,28 +1,37 @@
+// src/components/Hero.tsx
 type HeroData = {
-  imageUrl?: string; // valfri bakgrundsbild
-  eyebrow?: string; // liten rubrik överst i rutan
-  message: string; // text i den gula rutan
-  title: string; // rubriken under bilden
-  description: string; // brödtext under bilden
-  cta?: { label: string; href: string }; // valfri knapp
+  imageUrl?: string;
+
+  message: string; // ej använd här, men finns kvar
+  title: string;
+  description: string;
 };
 
 export function Hero({ data }: { data: HeroData }) {
   return (
-    <section className="space-y-4">
-      {/* Bildyta */}
-      <div className="relative overflow-hidden rounded-xl border bg-white">
-        <img
-          src={data.imageUrl || "https://placehold.co/600x400?text=Hero"}
-          alt=""
-          className="block w-full h-56 sm:h-72 md:h-96 object-cover"
-        />
-      </div>
+    <section>
+      <div className="overflow-hidden rounded-xl border bg-white">
+        {/* 1 kolumn på mobil, 2 kolumner på ≥1024px */}
+        <div className="grid lg:grid-cols-[1fr_2fr] lg:min-h-[22rem] xl:min-h-[26rem]">
+          {/* Textblock – under bilden på mobil, vänster på desktop */}
+          <div className="order-2 lg:order-1 flex items-center justify-center lg:justify-start p-6 lg:p-10">
+            <div className="max-w-xl text-center lg:text-left space-y-3">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold">
+                {data.title}
+              </h2>
+              <p className="text-slate-600">{data.description}</p>
+            </div>
+          </div>
 
-      {/* Titel + brödtext under bilden */}
-      <div className="space-y-2">
-        <h2 className="text-xl sm:text-2xl font-semibold">{data.title}</h2>
-        <p className="text-slate-600">{data.description}</p>
+          {/* Bild – överst på mobil, höger på desktop */}
+          <div className="order-1 lg:order-2">
+            <img
+              src={data.imageUrl || "https://placehold.co/1200x600?text=Hero"}
+              alt=""
+              className="block h-56 w-full object-cover sm:h-72 md:h-96 lg:h-full"
+            />
+          </div>
+        </div>
       </div>
     </section>
   );

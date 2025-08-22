@@ -1,15 +1,21 @@
-import type { ReactNode } from "react";
+// src/app/(store)/layout.tsx
+import { prisma } from "@/lib/prisma";
 import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 
-export default function StoreLayout({ children }: { children: ReactNode }) {
+export default async function StoreLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const categories = await prisma.category.findMany({
+    orderBy: { name: "asc" },
+    select: { slug: true, name: true },
+  });
+
   return (
-    <div className="min-h-dvh flex flex-col">
-      <Header />
-      <main className="flex-1">
-        <div className="max-w-6xl mx-auto px-4 py-6">{children}</div>
-      </main>
-      <Footer />
-    </div>
+    <>
+      <Header categories={categories} />
+      <main className="max-w-6xl mx-auto px-4 py-6">{children}</main>
+    </>
   );
 }

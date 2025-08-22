@@ -2,130 +2,44 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.product.createMany({
-    data: [
-      {
-        name: "Svart T-Shirt",
-        price: 199,
-        brand: "Levis",
-        image: "https://placehold.co/400x500?text=Product+Image+1",
-        sku: "SVA123",
-        description: "En stilren svart t-shirt i mjuk bomull.",
-      },
-      {
-        name: "Vit T-Shirt",
-        price: 199,
-        brand: "Levis",
-        image: "https://placehold.co/400x500?text=Product+Image+2",
-        sku: "VIT123",
-        description: "Klassisk vit t-shirt som passar allt.",
-      },
-      {
-        name: "Blå Jeans",
-        price: 499,
-        brand: "Levis",
-        image: "https://placehold.co/400x500?text=Product+Image+3",
-        sku: "BLJ456",
-        description: "Hållbara och bekväma blå jeans.",
-      },
-      {
-        name: "Röd Hoodie",
-        price: 299,
-        brand: "Levis",
-        image: "https://placehold.co/400x500?text=Product+Image+4",
-        sku: "ROH789",
-        description: "Varm hoodie med mjuk insida.",
-      },
-      {
-        name: "Grå Sweatshirt",
-        price: 249,
-        brand: "Levis",
-        image: "https://placehold.co/400x500?text=Product+Image+5",
-        sku: "GRS101",
-        description: "Mjuk sweatshirt perfekt till vardags.",
-      },
-      {
-        name: "Svart Byxa",
-        price: 399,
-        brand: "Levis",
-        image: "https://placehold.co/400x500?text=Product+Image+6",
-        sku: "SBX202",
-        description: "Eleganta svarta byxor med stretch.",
-      },
-      {
-        name: "Vit Sneakers",
-        price: 599,
-        brand: "Nike",
-        image: "https://placehold.co/400x500?text=Product+Image+7",
-        sku: "WSN303",
-        description: "Vita sneakers som andas och håller länge.",
-      },
-      {
-        name: "Svart Keps",
-        price: 149,
-        brand: "Levis",
-        image: "https://placehold.co/400x500?text=Product+Image+8",
-        sku: "SKE404",
-        description: "Trendig svart keps med justerbar rem.",
-      },
-      {
-        name: "Blå T-Shirt",
-        price: 199,
-        brand: "Adidas",
-        image: "https://placehold.co/400x500?text=Product+Image+9",
-        sku: "BLT505",
-        description: "Blå t-shirt med sportig passform.",
-      },
-      {
-        name: "Grön T-Shirt",
-        price: 199,
-        brand: "Nike",
-        image: "https://placehold.co/400x500?text=Product+Image+10",
-        sku: "GRT606",
-        description: "Fräsch grön t-shirt i bomull.",
-      },
-      {
-        name: "Svart Hoodie",
-        price: 349,
-        brand: "Adidas",
-        image: "https://placehold.co/400x500?text=Product+Image+11",
-        sku: "SHD707",
-        description: "Klassisk svart hoodie med ficka.",
-      },
-      {
-        name: "Vit Hoodie",
-        price: 349,
-        brand: "Nike",
-        image: "https://placehold.co/400x500?text=Product+Image+12",
-        sku: "VHD808",
-        description: "Mjuk vit hoodie perfekt för lager-på-lager.",
-      },
-      {
-        name: "Beige Chinos",
-        price: 399,
-        brand: "Zara",
-        image: "https://placehold.co/400x500?text=Product+Image+13",
-        sku: "BCH909",
-        description: "Bekväma chinos i beige ton.",
-      },
-      {
-        name: "Marinblå Kostymbyxa",
-        price: 549,
-        brand: "H&M",
-        image: "https://placehold.co/400x500?text=Product+Image+14",
-        sku: "MKB010",
-        description: "Elegant marinblå kostymbyxa.",
-      },
-      {
-        name: "Brun Läderbälte",
-        price: 199,
-        brand: "Gucci",
-        image: "https://placehold.co/400x500?text=Product+Image+15",
-        sku: "BLB111",
-        description: "Högkvalitativt brunt bälte i läder.",
-      },
-    ],
+  // 1) Skapa kategorier (idempotent)
+  const [dam, herr, rea] = await Promise.all([
+    prisma.category.upsert({
+      where: { slug: "dam" },
+      update: {},
+      create: { slug: "dam", name: "Dam" },
+    }),
+    prisma.category.upsert({
+      where: { slug: "herr" },
+      update: {},
+      create: { slug: "herr", name: "Herr" },
+    }),
+    prisma.category.upsert({
+      where: { slug: "rea" },
+      update: {},
+      create: { slug: "rea", name: "Rea" },
+    }),
+  ]);
+
+  // 2) Koppla några produkter (exempelregler – byt efter behov)
+  const all = await prisma.product.findMany({
+    select: { id: true, name: true },
   });
+
+  for (const p of all) {
+    const name = p.name.toLowerCase();
+    const catId =
+      name.includes("t-shirt") || name.includes("hoodie")
+        ? herr.id
+        : name.includes("kappa") || name.includes("byxa")
+        ? dam.id
+        : rea.id;
+
+    await prisma.product.update({
+      where: { id: p.id },
+      data: { categoryId: catId },
+    });
+  }
 }
 
 main().finally(() => prisma.$disconnect());

@@ -14,8 +14,10 @@ export default async function ProductPage({ params }: Props) {
   if (!p) return notFound();
 
   // Hämta kandidater (exkludera aktuell), blanda, ta 3
-  const candidates = await prisma.product.findMany({
-    where: { id: { not: p.id } },
+  const related = await prisma.product.findMany({
+    where: { categoryId: p.categoryId, id: { not: p.id } },
+    orderBy: { id: "desc" },
+    take: 3,
     select: {
       id: true,
       slug: true,
@@ -24,9 +26,7 @@ export default async function ProductPage({ params }: Props) {
       brand: true,
       image: true,
     },
-    take: 24,
   });
-  const related = candidates.sort(() => Math.random() - 0.5).slice(0, 3);
 
   return (
     <>

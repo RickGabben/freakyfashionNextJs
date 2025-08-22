@@ -51,8 +51,8 @@ function CartIcon(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
-
-export function Header() {
+type Cat = { slug: string; name: string };
+export function Header({ categories }: { categories: Cat[] }) {
   return (
     <header className="border-b bg-white">
       {/* MOBILE <640px */}
@@ -91,16 +91,16 @@ export function Header() {
         </div>
 
         {/* Länkar: Dam / Herr / Rea (vertikalt) */}
-        <nav className="mt-3 space-y-1 text-sm">
-          <Link href="/categories/dam" className="block hover:underline">
-            Dam
-          </Link>
-          <Link href="/categories/herr" className="block hover:underline">
-            Herr
-          </Link>
-          <Link href="/categories/rea" className="block hover:underline">
-            Rea
-          </Link>
+        <nav className="flex flex-col gap-1 text-sm text-slate-700 sm:flex-row sm:gap-5">
+          {categories.map((c) => (
+            <Link
+              key={c.slug}
+              href={`/categories/${c.slug}`}
+              className="hover:underline"
+            >
+              {c.name}
+            </Link>
+          ))}
         </nav>
       </div>
 
@@ -148,16 +148,16 @@ export function Header() {
           </div>
 
           {/* Rad 2: länkar under (vänsterställda) */}
-          <nav className="flex items-center gap-5 text-sm text-slate-700">
-            <Link href="/categories/dam" className="hover:underline">
-              Dam
-            </Link>
-            <Link href="/categories/herr" className="hover:underline">
-              Herr
-            </Link>
-            <Link href="/categories/rea" className="hover:underline">
-              Rea
-            </Link>
+          <nav className="flex flex-col gap-1 text-sm text-slate-700 sm:flex-row sm:gap-5">
+            {categories.map((c) => (
+              <Link
+                key={c.slug}
+                href={`/categories/${c.slug}`}
+                className="hover:underline"
+              >
+                {c.name}
+              </Link>
+            ))}
           </nav>
         </div>
       </div>

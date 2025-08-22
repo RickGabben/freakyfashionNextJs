@@ -10,7 +10,6 @@ export const dynamic = "force-dynamic";
 async function getHero() {
   // Byt till fetch från API/DB senare om du vill
   return {
-    eyebrow: "Hero",
     message: "Informationen är dynamisk.",
     title: "Lorem ipsum dolor",
     description:

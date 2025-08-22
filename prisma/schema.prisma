@@ -7,9 +7,16 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model Category {
+  id       Int       @id @default(autoincrement())
+  slug     String    @unique
+  name     String
+  products Product[]
+}
+
 model Product {
   id          Int      @id @default(autoincrement())
-  slug        String?  @unique   // <— läggs till nu (tillfälligt valfri)
+  slug        String?  @unique
   name        String
   price       Int
   brand       String?
@@ -17,4 +24,9 @@ model Product {
   sku         String?  @unique
   description String?
   createdAt   DateTime @default(now())
+
+  categoryId Int?
+  category   Category? @relation(fields: [categoryId], references: [id])
+
+  @@index([categoryId])
 }
