@@ -1,7 +1,13 @@
 // src/app/(store)/layout.tsx
 import { prisma } from "@/lib/prisma";
 import { Header } from "@/components/Header";
-
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: {
+    default: "FreakyFashion",
+    template: "%s | FreakyFashion",
+  },
+};
 export default async function StoreLayout({
   children,
 }: {

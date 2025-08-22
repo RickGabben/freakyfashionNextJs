@@ -4,36 +4,74 @@ import { notFound } from "next/navigation";
 import { ProductCard } from "@/components/ProductCard";
 import StoreBenefits from "@/components/StoreBenefits";
 import AccordionMenu from "@/components/AccordionMenu";
+import type { Metadata, ResolvingMetadata } from "next";
+
+// <title> dynamiskt
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> },
+  _parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { slug } = await params;
+  const p = await prisma.product.findUnique({
+    where: { slug },
+    select: { name: true, brand: true },
+  });
+  if (!p) return { title: "Produkt saknas" };
+  const title = p.brand ? `${p.name} – ${p.brand}` : p.name;
+  return { title };
+}
 
 type Props = { params: Promise<{ slug: string }> };
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
 
-  const p = await prisma.product.findUnique({ where: { slug } });
+  // Hämta produkt + dess kategorier
+  const p = await prisma.product.findUnique({
+    where: { slug },
+    include: { categories: { select: { id: true } } },
+  });
   if (!p) return notFound();
 
-  // Hämta kandidater (exkludera aktuell), blanda, ta 3
-  const related = await prisma.product.findMany({
-    where: { categoryId: p.categoryId, id: { not: p.id } },
-    orderBy: { id: "desc" },
-    take: 3,
-    select: {
-      id: true,
-      slug: true,
-      name: true,
-      price: true,
-      brand: true,
-      image: true,
-    },
-  });
+  // Hämta liknande: delar någon kategori. Om inga kategorier → slumpa 3 andra.
+  const catIds = p.categories.map((c) => c.id);
+  const related =
+    catIds.length > 0
+      ? await prisma.product.findMany({
+          where: {
+            id: { not: p.id },
+            categories: { some: { id: { in: catIds } } },
+          },
+          take: 3,
+          select: {
+            id: true,
+            slug: true,
+            name: true,
+            price: true,
+            brand: true,
+            image: true,
+          },
+        })
+      : await prisma.product.findMany({
+          where: { id: { not: p.id } },
+          orderBy: { id: "desc" },
+          take: 3,
+          select: {
+            id: true,
+            slug: true,
+            name: true,
+            price: true,
+            brand: true,
+            image: true,
+          },
+        });
 
   return (
     <>
       <section className="space-y-8">
         {/* Produktens egna info */}
         <div className="grid gap-6 sm:grid-cols-2">
-          <div className="aspect-[5/5] sm:aspect-[3/4] rounded-xl bg-slate-100 overflow-hidden">
+          <div className="aspect-[5/5] sm:aspect-[3/4] overflow-hidden rounded-xl bg-slate-100">
             {p.image ? (
               <img
                 src={p.image}
@@ -56,7 +94,7 @@ export default async function ProductPage({ params }: Props) {
         </div>
 
         {/* Liknande produkter (3 kort, 3 kolumner på md) */}
-        <div className="space-y-3 hidden sm:block">
+        <div className="hidden sm:block space-y-3">
           <h2 className="text-center text-lg font-semibold">
             Liknande produkter
           </h2>
@@ -67,6 +105,7 @@ export default async function ProductPage({ params }: Props) {
           </div>
         </div>
       </section>
+
       <section>
         <StoreBenefits />
         <AccordionMenu className="mt-10" />

@@ -4,7 +4,7 @@ import type { Prisma } from "@prisma/client";
 
 type ProductSummary = {
   id: number;
-  slug: string;
+  slug?: string | null;
   name: string;
   price: number;
   brand?: string | null;

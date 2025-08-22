@@ -8,25 +8,29 @@ generator client {
 }
 
 model Category {
-  id       Int       @id @default(autoincrement())
-  slug     String    @unique
-  name     String
-  products Product[]
+  id        Int       @id @default(autoincrement())
+  slug      String    @unique
+  name      String
+  imageUrl  String?
+  products  Product[]        // ← M:N
 }
 
 model Product {
-  id          Int      @id @default(autoincrement())
-  slug        String?  @unique
+  id          Int       @id @default(autoincrement())
+  slug        String?   @unique
   name        String
   price       Int
   brand       String?
   image       String?
-  sku         String?  @unique
+  sku         String?   @unique
   description String?
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
 
-  categoryId Int?
-  category   Category? @relation(fields: [categoryId], references: [id])
+  // ⛔️ Ta bort ev. gammalt:
+  // categoryId  Int?
+  // category    Category? @relation(fields: [categoryId], references: [id])
 
-  @@index([categoryId])
+  categories  Category[]      // ← M:N
 }
+
+

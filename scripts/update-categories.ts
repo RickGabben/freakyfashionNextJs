@@ -16,10 +16,9 @@ function has(str: string, ...needles: string[]) {
 
 async function main() {
   // 1) Se till att kategorierna finns
-  const [dam, herr, nyheter, kepsar, accessoarer] = await Promise.all([
+  const [dam, herr, kepsar, accessoarer] = await Promise.all([
     upsertCategory("dam", "Dam"),
     upsertCategory("herr", "Herr"),
-    upsertCategory("nyheter", "Nyheter"), // ersätter "rea"
     upsertCategory("kepsar-mossor", "Kepsar/Mössor"),
     upsertCategory("accessoarer", "Accessoarer"),
   ]);
