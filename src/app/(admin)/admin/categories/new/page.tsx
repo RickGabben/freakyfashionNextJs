@@ -24,7 +24,7 @@ export default function NewCategoryPage() {
       throw new Error("Namn krävs (max 25 tecken).");
 
     // Gör unik slug
-    let base = slugify(name) || "kategori";
+    const base = slugify(name) || "kategori";
     let slug = base;
     for (let i = 1; ; i++) {
       const exists = await prisma.category.findUnique({ where: { slug } });

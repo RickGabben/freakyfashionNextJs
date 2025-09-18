@@ -50,7 +50,7 @@ export default async function NewProductPage() {
     }
 
     // unik slug
-    let base = slugify(name) || "produkt";
+    const base = slugify(name) || "produkt";
     let slug = base;
     for (let i = 1; ; i++) {
       const exists = await prisma.product.findUnique({ where: { slug } });
