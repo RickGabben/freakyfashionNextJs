@@ -1,35 +1,23 @@
 // src/components/AccordionMenu.tsx
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 
-type Section = { title: string; links: { label: string; href: string }[] };
+type Section = { title: string; items: string[] };
 type Props = { className?: string };
 
 const SECTIONS: Section[] = [
   {
     title: "Shopping",
-    links: [
-      { label: "Vinterjackor", href: "/categories/vinterjackor" },
-      { label: "Pufferjackor", href: "/categories/pufferjackor" },
-      { label: "Kappa", href: "/categories/kappa" },
-      { label: "Trenchcoats", href: "/categories/trenchcoats" },
-    ],
+    items: ["Vinterjackor", "Pufferjackor", "Kappa", "Trenchcoats"],
   },
   {
     title: "Mina Sidor",
-    links: [
-      { label: "Mina Ordrar", href: "/orders" },
-      { label: "Mitt Konto", href: "/account" },
-    ],
+    items: ["Mina Ordrar", "Mitt Konto"],
   },
   {
     title: "Kundtjänst",
-    links: [
-      { label: "Returnpolicy", href: "/returns" },
-      { label: "Integritetspolicy", href: "/privacy" },
-    ],
+    items: ["Returnpolicy", "Integritetspolicy"],
   },
 ];
 
@@ -56,14 +44,15 @@ export default function AccordionMenu({ className = "" }: Props) {
   return (
     <section className={className}>
       {/* Mobile: accordion */}
-      <div className="sm:hidden rounded-xl border bg-white divide-y">
+      <div className="sm:hidden border bg-white divide-y">
         {SECTIONS.map((s, i) => {
           const isOpen = !!open[i];
           const id = `acc-${i}`;
           return (
             <div key={s.title}>
               <button
-                className="w-full px-4 py-3 flex items-center justify-between text-left font-medium"
+                className={`w-full px-4 py-3 flex items-center justify-between text-left font-medium
+                ${isOpen ? "bg-slate-300" : "bg-white"}`}
                 aria-expanded={isOpen}
                 aria-controls={id}
                 onClick={() => setOpen((p) => ({ ...p, [i]: !p[i] }))}
@@ -71,13 +60,11 @@ export default function AccordionMenu({ className = "" }: Props) {
                 <span>{s.title}</span>
                 <Chevron open={isOpen} />
               </button>
-              <div id={id} className={`${isOpen ? "block" : "hidden"}`}>
+              <div id={id} className={isOpen ? "block" : "hidden"}>
                 <ul className="px-4 pb-3 space-y-2 text-sm text-slate-700">
-                  {s.links.map((l) => (
-                    <li key={l.label}>
-                      <Link className="hover:underline" href={l.href}>
-                        {l.label}
-                      </Link>
+                  {s.items.map((label) => (
+                    <li key={label} className="select-none">
+                      {label}
                     </li>
                   ))}
                 </ul>
@@ -88,16 +75,14 @@ export default function AccordionMenu({ className = "" }: Props) {
       </div>
 
       {/* Desktop: tre kolumner */}
-      <div className="hidden sm:grid grid-cols-1 sm:grid-cols-3 gap-8">
+      <div className="hidden sm:bg-gray-200 sm:grid sm:p-6 sm:mt-4 grid-cols-1 sm:grid-cols-3 gap-8">
         {SECTIONS.map((s) => (
           <div key={s.title}>
             <h3 className="text-sm font-semibold mb-2">{s.title}</h3>
             <ul className="space-y-2 text-sm text-slate-700">
-              {s.links.map((l) => (
-                <li key={l.label}>
-                  <Link className="hover:underline" href={l.href}>
-                    {l.label}
-                  </Link>
+              {s.items.map((label) => (
+                <li key={label} className="select-none">
+                  {label}
                 </li>
               ))}
             </ul>

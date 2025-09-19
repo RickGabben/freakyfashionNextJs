@@ -31,7 +31,6 @@ export default function Spots({ items }: { items?: SpotItem[] }) {
   ];
 
   return (
-    // visas på desktop (som i skissen). Ta bort "hidden lg:grid" om du vill visa även på mobil.
     <div className="hidden lg:grid grid-cols-3 gap-3">
       {data.slice(0, 3).map((spot) => (
         <Link

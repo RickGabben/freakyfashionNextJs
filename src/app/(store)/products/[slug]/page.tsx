@@ -105,11 +105,6 @@ export default async function ProductPage({ params }: Props) {
           </div>
         </div>
       </section>
-
-      <section>
-        <StoreBenefits />
-        <AccordionMenu className="mt-10" />
-      </section>
     </>
   );
 }

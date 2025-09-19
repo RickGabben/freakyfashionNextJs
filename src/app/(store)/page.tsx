@@ -52,9 +52,6 @@ export default async function HomePage() {
 
       {/* Product grid – hämtar själv via Prisma */}
       <ProductGrid showHeart query={{ limit: 8 }} />
-      <StoreBenefits />
-      <AccordionMenu className="mt-2" />
-      <Footer />
     </section>
   );
 }
