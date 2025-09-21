@@ -46,8 +46,8 @@ export default async function CategoryPage({ params }: Props) {
 
   return (
     <section className="space-y-6">
-      <h1 className="text-2xl font-bold">{category.name}</h1>
-      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <h1 className="text-2xl text-center font-bold">{category.name}</h1>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {category.products.map((p) => (
           <ProductCard key={p.id} {...p} showHeart />
         ))}

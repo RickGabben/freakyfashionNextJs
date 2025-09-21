@@ -32,7 +32,7 @@ export default function NewCategoryPage() {
       slug = `${base}-${i}`;
     }
 
-    // Ev. filuppladdning
+    //filuppladdning
     let imageUrl: string | null = null;
     const file = formData.get("image") as File | null;
     if (file && file.size > 0) {
@@ -89,12 +89,8 @@ export default function NewCategoryPage() {
             name="image"
             type="file"
             accept="image/*"
-            className="mt-1 block w-full text-sm"
+            className="mt-1 border block w-full text-sm"
           />
-          <p className="mt-1 text-xs text-slate-500">
-            Bilden sparas under <code>/public/images/categories</code> och URL
-            lagras i databasen.
-          </p>
         </label>
 
         <div className="flex gap-2">

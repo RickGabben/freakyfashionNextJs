@@ -2,8 +2,6 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { ProductCard } from "@/components/ProductCard";
-import StoreBenefits from "@/components/StoreBenefits";
-import AccordionMenu from "@/components/AccordionMenu";
 import type { Metadata, ResolvingMetadata } from "next";
 
 // <title> dynamiskt
@@ -83,10 +81,12 @@ export default async function ProductPage({ params }: Props) {
           <div>
             <h1 className="text-2xl font-bold">{p.name}</h1>
             {p.brand && <div className="mt-1 text-slate-600">{p.brand}</div>}
-            <div className="mt-4 text-xl font-semibold">{p.price} kr</div>
             {p.description && (
               <p className="mt-4 text-slate-700">{p.description}</p>
             )}
+
+            <div className="mt-4 text-xl font-semibold">{p.price} kr</div>
+
             <button className="mt-6 h-10 w-full sm:w-1/2 rounded-md bg-black px-4 text-sm font-medium text-white">
               Lägg i varukorg
             </button>

@@ -2,9 +2,6 @@
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import ProductGrid from "@/components/ProductGrid";
-import StoreBenefits from "@/components/StoreBenefits";
-import AccordionMenu from "@/components/AccordionMenu";
-import { Footer } from "@/components/Footer";
 
 export const dynamic = "force-dynamic";
 
@@ -51,15 +48,14 @@ export default async function SearchPage({ searchParams }: Props) {
 
   return (
     <section className="space-y-6">
-      <h1 className="text-2xl font-bold">Hittade {total} produkter</h1>
+      <h1 className="text-2xl text-center font-bold">
+        Hittade {total} produkter
+      </h1>
 
       <ProductGrid
         showHeart
         products={items} // skicka in färdiga produkter
       />
-      <StoreBenefits />
-      <AccordionMenu />
-      <Footer />
     </section>
   );
 }

@@ -156,19 +156,14 @@ export default async function NewProductPage() {
             />
           </label>
 
-          {/* Bytt från Bild-URL till filuppladdning */}
           <label className="block sm:col-span-2">
             <div className="text-sm font-medium">Bild</div>
             <input
               name="imageFile"
               type="file"
               accept="image/*"
-              className="mt-1 block w-full text-sm"
+              className="mt-1 border block w-full text-sm"
             />
-            <p className="mt-1 text-xs text-slate-500">
-              Bilden sparas i <code>/public/images/products</code> och URL:en
-              lagras på produkten.
-            </p>
           </label>
 
           <label className="block sm:col-span-2">

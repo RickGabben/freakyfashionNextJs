@@ -26,7 +26,7 @@ export default async function StoreLayout({
       <Header categories={categories} />
       <main className="max-w-6xl mx-auto px-4 py-6">{children}</main>
       <StoreBenefits />
-      <AccordionMenu className="mt-2" />
+      <AccordionMenu className="mt-10" />
       <Footer />
     </>
   );

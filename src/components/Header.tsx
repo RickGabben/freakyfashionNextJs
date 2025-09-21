@@ -129,7 +129,7 @@ export function Header({ categories }: { categories: Cat[] }) {
             </form>
 
             {/* Ikoner till höger */}
-            <div className="ml-2 flex items-center gap-4 text-slate-700">
+            <div className="ml-2 items-center gap-4 text-slate-700">
               <a
                 href="#"
                 aria-label="Önskelista"
