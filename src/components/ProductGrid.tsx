@@ -13,7 +13,7 @@ type ProductSummary = {
 
 type GridByQuery = {
   title?: string;
-  showHeart?: boolean; // ⬅️ NYTT
+  showHeart?: boolean;
 
   query: {
     limit?: number;
@@ -24,7 +24,7 @@ type GridByQuery = {
 };
 type GridByData = {
   title?: string;
-  showHeart?: boolean; // ⬅️ NYTT
+  showHeart?: boolean;
   products: ProductSummary[];
 };
 type Props = GridByQuery | GridByData;
@@ -38,7 +38,7 @@ export default async function ProductGrid(props: Props) {
   } else {
     const { limit = 8, search, brand, excludeId } = props.query;
     const where: Prisma.ProductWhereInput = {};
-    if (search) where.name = { contains: search }; // SQLite: ingen mode
+    if (search) where.name = { contains: search };
     if (brand) where.brand = brand;
     if (excludeId) where.id = { not: excludeId };
 
@@ -58,7 +58,7 @@ export default async function ProductGrid(props: Props) {
 
     items = rawItems.map((item) => ({
       ...item,
-      slug: item.slug ?? "", // Ensure slug is always a string
+      slug: item.slug ?? "",
     }));
   }
 

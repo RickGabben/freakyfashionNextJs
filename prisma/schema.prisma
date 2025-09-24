@@ -26,9 +26,7 @@ model Product {
   description String?
   createdAt   DateTime  @default(now())
 
-  // ⛔️ Ta bort ev. gammalt:
-  // categoryId  Int?
-  // category    Category? @relation(fields: [categoryId], references: [id])
+ 
 
   categories  Category[]      // ← M:N
 }

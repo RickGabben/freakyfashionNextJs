@@ -1,26 +1,20 @@
 // src/app/(store)/page.tsx
-import AccordionMenu from "@/components/AccordionMenu";
-import { Footer } from "@/components/Footer";
+
 import { Hero } from "@/components/Hero";
 import ProductGrid from "@/components/ProductGrid";
 import Spots, { SpotItem } from "@/components/Spots";
-import StoreBenefits from "@/components/StoreBenefits";
 
 export const dynamic = "force-dynamic";
 
 async function getHero() {
-  // Byt till fetch från API/DB senare om du vill
   return {
     message: "Informationen är dynamisk.",
     title: "Lorem ipsum dolor",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    // imageUrl: "/hero.jpg",
-    // cta: { label: "Handla nu", href: "/categories/nyheter" },
   };
 }
 async function getSpots(): Promise<SpotItem[]> {
-  // Byt till fetch/DB senare
   return [
     {
       title: "Vinterjackor",
@@ -50,7 +44,6 @@ export default async function HomePage() {
       {/* Spots */}
       <Spots items={spotsData} />
 
-      {/* Product grid – hämtar själv via Prisma */}
       <ProductGrid showHeart query={{ limit: 8 }} />
     </section>
   );

@@ -63,8 +63,6 @@ export default async function NewProductPage() {
       .map((v) => Number(v))
       .filter((n) => Number.isInteger(n));
 
-    // --- BILDUPPLADDNING ---
-    // name="imageFile" i formuläret
     let imageUrl: string | null = null;
     const file = formData.get("imageFile") as File | null;
 
@@ -112,8 +110,6 @@ export default async function NewProductPage() {
 
       <form
         action={createProduct}
-        // Viktigt för filuppladdning:
-        encType="multipart/form-data"
         className="space-y-4 rounded-lg border bg-white p-4"
       >
         <div className="grid gap-4 sm:grid-cols-2">
